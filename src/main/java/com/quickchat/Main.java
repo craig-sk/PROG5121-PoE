@@ -2,11 +2,6 @@ package com.quickchat;
 
 import java.util.Scanner;
 
-/**
- * Console entry point for the QuickChat registration and login feature.
- *
- * PROG5121 - Part 1. Console application only (no GUI / no JOptionPane).
- */
 public class Main {
 
     public static void main(String[] args) {
@@ -15,14 +10,12 @@ public class Main {
 
         System.out.println("=== QuickChat Registration ===");
 
-        // --- Capture first and last name (used in the login welcome message) ---
         System.out.print("Enter your first name: ");
         login.setFirstName(scanner.nextLine().trim());
 
         System.out.print("Enter your last name: ");
         login.setLastName(scanner.nextLine().trim());
 
-        // --- Username: loop until correctly formatted ---
         String username;
         while (true) {
             System.out.print("Enter a username (must contain an underscore and be no more than five characters): ");
@@ -34,7 +27,6 @@ public class Main {
             System.out.println(Login.USERNAME_FAIL);
         }
 
-        // --- Password: loop until it meets the complexity rules ---
         String password;
         while (true) {
             System.out.print("Enter a password (min 8 chars, a capital, a number and a special character): ");
@@ -46,7 +38,6 @@ public class Main {
             System.out.println(Login.PASSWORD_FAIL);
         }
 
-        // --- Cell phone number: loop until correctly formatted ---
         String cellPhoneNumber;
         while (true) {
             System.out.print("Enter your cell phone number (e.g. +27838968976): ");
@@ -58,11 +49,9 @@ public class Main {
             System.out.println(Login.CELL_FAIL);
         }
 
-        // --- Register the user with the captured details ---
         String registrationResult = login.registerUser(username, password, cellPhoneNumber);
         System.out.println(registrationResult);
 
-        // --- Login ---
         System.out.println();
         System.out.println("=== QuickChat Login ===");
         boolean loggedIn = false;
