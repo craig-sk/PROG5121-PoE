@@ -1,5 +1,14 @@
 package com.quickchat;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Message {
@@ -9,6 +18,10 @@ public class Message {
     private String recipient;
     private String message;
     private String messageHash;
+
+    private static final List<Message> sentMessages = new ArrayList<>();
+    private static final List<Message> storedMessages = new ArrayList<>();
+    private static final String STORE_FILE = "stored_messages.json";
 
     public Message(String recipient, String message, int messageNumber) {
         this.recipient = recipient;
@@ -68,6 +81,67 @@ public class Message {
         String lastWord = words[words.length - 1].replaceAll("[^a-zA-Z0-9]", "");
         String idPart = messageID.length() >= 2 ? messageID.substring(0, 2) : messageID;
         return (idPart + ":" + messageNumber + ":" + firstWord + lastWord).toUpperCase();
+    }
+
+    public String sentMessage(int choice) {
+        switch (choice) {
+            case 1:
+                sentMessages.add(this);
+                return "Message successfully sent.";
+            case 2:
+                return "Press 0 to delete the message.";
+            case 3:
+                storeMessage();
+                return "Message successfully stored.";
+            default:
+                return "Invalid choice, please select 1, 2 or 3.";
+        }
+    }
+
+    public String printMessages() {
+        if (sentMessages.isEmpty()) {
+            return "No messages have been sent.";
+        }
+        StringBuilder builder = new StringBuilder();
+        for (Message sent : sentMessages) {
+            builder.append("Message ID: ").append(sent.messageID).append(System.lineSeparator())
+                    .append("Message Hash: ").append(sent.messageHash).append(System.lineSeparator())
+                    .append("Recipient: ").append(sent.recipient).append(System.lineSeparator())
+                    .append("Message: ").append(sent.message).append(System.lineSeparator())
+                    .append(System.lineSeparator());
+        }
+        return builder.toString().trim();
+    }
+
+    public int returnTotalMessages() {
+        return sentMessages.size();
+    }
+
+    public void storeMessage() {
+        storedMessages.add(this);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(STORE_FILE)) {
+            gson.toJson(storedMessages, writer);
+        } catch (IOException e) {
+            System.out.println("Error storing message: " + e.getMessage());
+        }
+    }
+
+    public static List<Message> readStoredMessages() {
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader(STORE_FILE)) {
+            Type listType = new TypeToken<ArrayList<Message>>() {
+            }.getType();
+            List<Message> messages = gson.fromJson(reader, listType);
+            return messages == null ? new ArrayList<>() : messages;
+        } catch (IOException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public static void resetForTesting() {
+        sentMessages.clear();
+        storedMessages.clear();
     }
 
     public String getMessageID() {
