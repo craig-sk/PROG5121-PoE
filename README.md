@@ -3,7 +3,7 @@
 Java (Maven) console application for the PROG5121 Programming 1A Portfolio of Evidence.
 
 - **Module:** PROG5121 - Programming 1A (The IIE)
-- **Student:** Craig Tsikiwa (ST10500288)
+- **Student:** Craig Tapriton Tsikiwa (ST10500288)
 - **Repository:** https://github.com/craig-sk/PROG5121-PoE
 
 ## Tech stack
