@@ -1,6 +1,30 @@
 # QuickChat - PROG5121 Portfolio of Evidence
 
-Java (Maven) console application for the PROG5121 Programming 1A PoE.
+Java (Maven) console application for the PROG5121 Programming 1A Portfolio of Evidence.
+
+- **Module:** PROG5121 - Programming 1A (The IIE)
+- **Student:** Craig Tsikiwa (ST10500288)
+- **Repository:** https://github.com/craig-sk/PROG5121-PoE
+
+## Tech stack
+
+- Java 17
+- Apache Maven
+- JUnit 5 (unit testing)
+- Gson (JSON storage)
+- GitHub + GitHub Actions (version control and CI)
+
+## Project structure
+
+```
+src/main/java/com/quickchat/
+  Login.java     - registration and login logic (Part 1)
+  Message.java   - message creation, validation, hashing and storage (Part 2)
+  Main.java      - console entry point (registration, login, QuickChat menu)
+src/test/java/com/quickchat/
+  LoginTest.java    - unit tests for Login
+  MessageTest.java  - unit tests for Message
+```
 
 ## Part 1 - Registration and Login
 
@@ -52,25 +76,28 @@ shown when the user quits.
 | `returnTotalMessages()` | `int` | Returns the total number of messages sent. |
 | `storeMessage()` | `void` | Stores messages to a JSON file. |
 
-Tests for this class are in `src/test/java/com/quickchat/MessageTest.java`.
-
 ## Running
 
-Open the project in NetBeans (or any IDE with Maven support) and run `com.quickchat.Main`,
-or from the command line:
+Open the project in NetBeans (or any IDE with Maven support) and run `com.quickchat.Main`, or
+from the command line:
 
 ```bash
 mvn compile
-mvn exec:java -Dexec.mainClass=com.quickchat.Main
+mvn org.codehaus.mojo:exec-maven-plugin:3.1.0:java -Dexec.mainClass=com.quickchat.Main
 ```
 
 ## Testing
 
-Unit tests live in `src/test/java/com/quickchat/LoginTest.java` and use the test data from the
-assessment brief.
+Unit tests live in `src/test/java/com/quickchat/` (`LoginTest` and `MessageTest`) and use the
+test data from the assessment brief (24 tests in total).
 
 ```bash
 mvn test
 ```
 
-Tests are run automatically on every push via GitHub Actions (`.github/workflows/maven.yml`).
+Tests run automatically on every push via GitHub Actions (`.github/workflows/maven.yml`).
+
+## Version control workflow
+
+`main` is kept as the stable branch. Each feature is developed on its own branch (for example
+`MessageFeature` for Part 2) and merged back into `main` once the tests pass.
