@@ -17,3 +17,6 @@ nbactions.xml
 # OS
 .DS_Store
 Thumbs.db
+
+# QuickChat message store (generated at runtime)
+stored_messages.json
